@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:i_project/auth/sign_up.dart';
 import 'package:i_project/auth/sign_up_.dart';
+import 'package:i_project/home/home_page.dart';
 import 'package:i_project/utils.dart';
 
 void main() {
@@ -16,6 +17,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: const TextTheme(
+          bodyText2: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       builder: ((context, child) {
         Utils.getBlockHeightAndWidth(context);
@@ -28,55 +34,16 @@ class MyApp extends StatelessWidget {
         // );
         return child!;
       }),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SignUpNew();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+    return const HomePage();
   }
 }

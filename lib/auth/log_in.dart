@@ -12,10 +12,10 @@ class LogIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black87,
+        backgroundColor: Utils.backgroundColor,
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: Utils.blockWidht * 8),
+            padding: EdgeInsets.symmetric(horizontal: Utils.bodyPadding),
             height:
                 (Utils.blockHeight * 100) - MediaQuery.of(context).padding.top,
             child: Column(
@@ -101,14 +101,8 @@ class LogIn extends StatelessWidget {
                   width: double.infinity,
                   height: Utils.blockHeight * 5.5,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Utils.blockWidht * 3),
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xff8D0696).withOpacity(.7),
-                        const Color(0xffC44BC1).withOpacity(.7),
-                        const Color(0xff9D0570).withOpacity(.7),
-                      ],
-                    ),
+                    borderRadius: BorderRadius.circular(Utils.borderRadius),
+                    gradient: Utils.gradient,
                   ),
                   child: Center(
                     child: Text(

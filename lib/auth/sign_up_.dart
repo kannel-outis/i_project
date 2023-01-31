@@ -11,10 +11,10 @@ class SignUpNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black87,
+        backgroundColor: Utils.backgroundColor,
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: Utils.blockWidht * 8),
+            padding: EdgeInsets.symmetric(horizontal: Utils.bodyPadding),
             height:
                 (Utils.blockHeight * 100) - MediaQuery.of(context).padding.top,
             child: Column(
@@ -95,14 +95,8 @@ class SignUpNew extends StatelessWidget {
                   width: double.infinity,
                   height: Utils.blockHeight * 5.5,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Utils.blockWidht * 3),
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xff8D0696).withOpacity(.7),
-                        const Color(0xffC44BC1).withOpacity(.7),
-                        const Color(0xff9D0570).withOpacity(.7),
-                      ],
-                    ),
+                    borderRadius: BorderRadius.circular(Utils.borderRadius),
+                    gradient: Utils.gradient,
                   ),
                   child: Center(
                     child: Text(
@@ -201,18 +195,12 @@ class TextFieldGradient extends StatelessWidget {
                   horizontal: Utils.blockWidht * 4,
                 ),
                 focusedBorder: GradientOutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Utils.blockWidht * 3),
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xff8D0696).withOpacity(.8),
-                      const Color(0xffC44BC1).withOpacity(.8),
-                      const Color(0xff9D0570).withOpacity(.8),
-                    ],
-                  ),
+                  borderRadius: BorderRadius.circular(Utils.borderRadius),
+                  gradient: Utils.borderGradient,
                   width: 2,
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Utils.blockWidht * 3),
+                  borderRadius: BorderRadius.circular(Utils.borderRadius),
                   borderSide: BorderSide(
                     color: Colors.grey.withOpacity(.4),
                   ),
@@ -240,7 +228,7 @@ class SocialWidget extends StatelessWidget {
         height: Utils.blockHeight * 6,
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(.2),
-          borderRadius: BorderRadius.circular(Utils.blockWidht * 3),
+          borderRadius: BorderRadius.circular(Utils.borderRadius),
           border: Border.all(
             color: Colors.grey.withOpacity(.3),
           ),
