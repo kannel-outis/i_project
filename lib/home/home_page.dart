@@ -1,59 +1,132 @@
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/gradient_borders.dart';
 import 'package:i_project/home/gradient_mask.dart';
 import 'package:i_project/utils.dart';
 
+import 'contact_tile.dart';
 import 'home_tile.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Utils.backgroundColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Utils.bodyPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: Utils.blockHeight * 2.5,
+        child: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: _pageController,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Utils.bodyPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: Utils.blockHeight * 2.5,
+                  ),
+                  Text(
+                    "Welcome, Isaac",
+                    style: TextStyle(
+                      fontSize: Utils.blockWidht * 7,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: Utils.blockHeight * 5),
+                  const HomeTile(
+                    title: "Do you know ?",
+                    note:
+                        "A number of promising approaches to reduce sexual violence against children are being tested, but many more are needed",
+                    buttonText: "Learn More",
+                  ),
+                  const HomeTile(
+                    title: "Report Abuse",
+                    note:
+                        "Maybe you have a suspicion that a child is being abused with evidence. or confirmation with the said child.",
+                    buttonText: "Report Abuse",
+                    icon: Icons.report_outlined,
+                  ),
+                ],
               ),
-              Text(
-                "Welcome, Isaac",
-                style: TextStyle(
-                  fontSize: Utils.blockWidht * 7,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: Utils.blockHeight * 5),
-              const HomeTile(
-                title: "Do you know ?",
-                note:
-                    "A number of promising approaches to reduce sexual violence against children are being tested, but many more are needed",
-                buttonText: "Learn More",
-              ),
-              const HomeTile(
-                title: "Report Abuse",
-                note:
-                    "Maybe you have a suspicion that a child is being abused with evidence. or confirmation with the said child.",
-                buttonText: "Report Abuse",
-                icon: Icons.report_outlined,
-              ),
-            ],
-          ),
+            ),
+            const SecondPage()
+          ],
         ),
       ),
       bottomNavigationBar: CustomBottomNavBar(
         icons: const [
           Icons.home,
-          Icons.home,
+          Icons.contact_page,
         ],
         index: 0,
         onChanged: (index) {
+          _pageController.jumpToPage(index);
           print(index);
         },
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  const SecondPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: Utils.bodyPadding - 20,
+        vertical: Utils.bodyPadding,
+      ),
+      child: ListView(
+        children: const [
+          ContactTile(
+            name: "Adetunmbi juwon",
+            position: "Therapist",
+            imageLink:
+                "https://minimaltoolkit.com/images/randomdata/male/21.jpg",
+          ),
+          ContactTile(
+            name: "Salami olamide",
+            position: "Medical doctor",
+            imageLink:
+                "https://minimaltoolkit.com/images/randomdata/male/98.jpg",
+          ),
+          ContactTile(
+            name: "Azeez taiwo",
+            position: "Medical doctor",
+            imageLink:
+                "https://minimaltoolkit.com/images/randomdata/male/41.jpg",
+          ),
+          ContactTile(
+            name: "Aderinola samsom",
+            position: "Social counsellor",
+            imageLink:
+                "https://minimaltoolkit.com/images/randomdata/male/30.jpg",
+          ),
+          ContactTile(
+            name: "Olumuyiwa damilare",
+            position: "physician",
+            imageLink:
+                "https://minimaltoolkit.com/images/randomdata/male/11.jpg",
+          ),
+        ],
       ),
     );
   }
@@ -93,7 +166,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   @override
   void didUpdateWidget(covariant CustomBottomNavBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.icons.length != oldWidget.icons.length) {
+    if (widget.icons != oldWidget.icons) {
       _icons = widget.icons;
       setState(() {});
     }

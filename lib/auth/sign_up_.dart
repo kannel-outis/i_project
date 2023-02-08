@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:i_project/auth/log_in.dart';
+import 'package:i_project/icons.dart';
 import 'package:i_project/utils.dart';
 
 class SignUpNew extends StatelessWidget {
@@ -64,9 +65,9 @@ class SignUpNew extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const SocialWidget(icon: Icons.facebook_outlined),
+                      const SocialWidget(icon: MyIconData.facebook_f),
                       SizedBox(width: Utils.blockWidht * 6),
-                      const SocialWidget(icon: Icons.home_outlined),
+                      const SocialWidget(icon: MyIconData.google),
                     ],
                   ),
                 ),

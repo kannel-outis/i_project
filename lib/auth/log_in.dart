@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:i_project/icons.dart';
 import 'package:i_project/utils.dart';
 
 import 'sign_up_.dart';
@@ -74,9 +75,9 @@ class LogIn extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const SocialWidget(icon: Icons.facebook_outlined),
+                      const SocialWidget(icon: MyIconData.facebook_f),
                       SizedBox(width: Utils.blockWidht * 6),
-                      const SocialWidget(icon: Icons.home_outlined),
+                      const SocialWidget(icon: MyIconData.google),
                     ],
                   ),
                 ),
