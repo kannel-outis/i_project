@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:i_project/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactTile extends StatelessWidget {
   final String name;
@@ -68,40 +69,50 @@ class ContactTile extends StatelessWidget {
           ),
           Row(
             children: [
-              Container(
-                height: Utils.blockWidht * 10,
-                width: Utils.blockWidht * 15,
-                decoration: BoxDecoration(
-                  color: const Color(0xffC44BC1).withOpacity(.8),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(Utils.blockWidht * 2),
-                  ),
-                ),
-                child: Icon(
-                  Icons.message,
-                  color: Colors.white,
-                  size: Utils.blockWidht * 3.5,
-                ),
-              ),
-              SizedBox(width: Utils.blockWidht * 3.5),
-              Expanded(
+              GestureDetector(
+                onTap: () async {
+                  await launchUrl(Uri.parse("sms: +2347066566595"));
+                },
                 child: Container(
                   height: Utils.blockWidht * 10,
+                  width: Utils.blockWidht * 15,
                   decoration: BoxDecoration(
-                    // color: Colors.black,
-                    border: GradientBoxBorder(
-                      gradient: Utils.borderGradient,
-                    ),
+                    color: const Color(0xffC44BC1).withOpacity(.8),
                     borderRadius: BorderRadius.all(
                       Radius.circular(Utils.blockWidht * 2),
                     ),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Call Now",
-                      style: TextStyle(
-                        fontSize: Utils.blockWidht * 3,
-                        color: const Color(0xffC44BC1).withOpacity(.8),
+                  child: Icon(
+                    Icons.message,
+                    color: Colors.white,
+                    size: Utils.blockWidht * 3.5,
+                  ),
+                ),
+              ),
+              SizedBox(width: Utils.blockWidht * 3.5),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+                    await launchUrl(Uri.parse("tel: +2347066566595"));
+                  },
+                  child: Container(
+                    height: Utils.blockWidht * 10,
+                    decoration: BoxDecoration(
+                      // color: Colors.black,
+                      border: GradientBoxBorder(
+                        gradient: Utils.borderGradient,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(Utils.blockWidht * 2),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Call Now",
+                        style: TextStyle(
+                          fontSize: Utils.blockWidht * 3,
+                          color: const Color(0xffC44BC1).withOpacity(.8),
+                        ),
                       ),
                     ),
                   ),

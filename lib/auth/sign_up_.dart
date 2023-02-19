@@ -1,12 +1,71 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:i_project/auth/log_in.dart';
+import 'package:i_project/home/home_page.dart';
 import 'package:i_project/icons.dart';
 import 'package:i_project/utils.dart';
+import 'package:toast/toast.dart';
 
-class SignUpNew extends StatelessWidget {
+class SignUpNew extends StatefulWidget {
   const SignUpNew({super.key});
+
+  @override
+  State<SignUpNew> createState() => _SignUpNewState();
+}
+
+class _SignUpNewState extends State<SignUpNew> {
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _usernameController;
+
+  bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _usernameController = TextEditingController();
+  }
+
+  Future register() async {
+    if (_emailController.text == "" ||
+        _passwordController.text == "" ||
+        _usernameController.text == "") return;
+
+    try {
+      setState(() {
+        _loading = true;
+      });
+      final result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      if (result.user != null) {
+        result.user!.updateDisplayName(_usernameController.text);
+        result.user!.reload();
+      }
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => HomePage(
+            username: _usernameController.text,
+          ),
+        ),
+      );
+      setState(() {
+        _loading = false;
+      });
+    } on FirebaseAuthException catch (e) {
+      Toast.show(e.message ?? "Something went wrong");
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,38 +133,51 @@ class SignUpNew extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: Utils.blockHeight * 3),
                   child: Column(
-                    children: const [
+                    children: [
                       TextFieldGradient(
                         hint: "username",
                         label: "Name",
+                        controller: _usernameController,
                       ),
                       TextFieldGradient(
                         hint: "johndoe@email.com",
                         label: "Email",
+                        controller: _emailController,
                       ),
                       TextFieldGradient(
                         hint: "Pick a strong password",
                         label: "Password",
                         isPassword: true,
+                        controller: _passwordController,
                       ),
                     ],
                   ),
                 ),
                 SizedBox(height: Utils.blockHeight * 2.5),
-                Container(
-                  width: double.infinity,
-                  height: Utils.blockHeight * 5.5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Utils.borderRadius),
-                    gradient: Utils.gradient,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Create Account",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: Utils.blockWidht * 3.3,
-                      ),
+                GestureDetector(
+                  onTap: register,
+                  child: Container(
+                    width: double.infinity,
+                    height: Utils.blockHeight * 5.5,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Utils.borderRadius),
+                      gradient: Utils.gradient,
+                    ),
+                    child: Center(
+                      child: _loading
+                          ? const CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Create Account",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: Utils.blockWidht * 3.3,
+                              ),
+                            ),
                     ),
                   ),
                 ),
@@ -155,9 +227,11 @@ class TextFieldGradient extends StatelessWidget {
   final String hint;
   final String label;
   final bool isPassword;
+  final TextEditingController? controller;
   const TextFieldGradient({
     required this.hint,
     required this.label,
+    this.controller,
     this.isPassword = false,
     Key? key,
   }) : super(key: key);
@@ -179,6 +253,7 @@ class TextFieldGradient extends StatelessWidget {
           SizedBox(
             child: TextField(
               obscureText: isPassword,
+              controller: controller,
               style: TextStyle(
                 color: Colors.grey.withOpacity(.5),
                 fontSize: Utils.blockWidht * 3,

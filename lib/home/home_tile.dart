@@ -10,11 +10,13 @@ class HomeTile extends StatelessWidget {
   final String buttonText;
   final String note;
   final IconData? icon;
+  final Function()? callback;
   const HomeTile({
     Key? key,
     required this.buttonText,
     required this.note,
     required this.title,
+    this.callback,
     this.icon,
   }) : super(key: key);
 
@@ -73,23 +75,26 @@ class HomeTile extends StatelessWidget {
             ),
           ),
           SizedBox(height: Utils.blockHeight * 2),
-          SizedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  buttonText,
-                  style: TextStyle(
-                    fontSize: Utils.blockWidht * 3.3,
-                    color: const Color(0xffC44BC1).withOpacity(.8),
+          GestureDetector(
+            onTap: callback,
+            child: SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    buttonText,
+                    style: TextStyle(
+                      fontSize: Utils.blockWidht * 3.3,
+                      color: const Color(0xffC44BC1).withOpacity(.8),
+                    ),
                   ),
-                ),
-                Icon(
-                  CupertinoIcons.forward,
-                  color: const Color(0xffC44BC1).withOpacity(.8),
-                  size: Utils.blockWidht * 4,
-                ),
-              ],
+                  Icon(
+                    CupertinoIcons.forward,
+                    color: const Color(0xffC44BC1).withOpacity(.8),
+                    size: Utils.blockWidht * 4,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

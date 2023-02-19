@@ -1,13 +1,61 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:i_project/home/home_page.dart';
 import 'package:i_project/icons.dart';
 import 'package:i_project/utils.dart';
+import 'package:toast/toast.dart';
 
 import 'sign_up_.dart';
 
-class LogIn extends StatelessWidget {
+class LogIn extends StatefulWidget {
   final bool fromSignUp;
   const LogIn({super.key, this.fromSignUp = false});
+
+  @override
+  State<LogIn> createState() => _LogInState();
+}
+
+class _LogInState extends State<LogIn> {
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  Future logIn() async {
+    if (_emailController.text == "" || _passwordController.text == "") return;
+    try {
+      setState(() {
+        _loading = true;
+      });
+      final result = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      if (result.user == null) Toast.show("");
+      setState(() {
+        _loading = false;
+      });
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      Toast.show(e.message ?? "Something went wrong");
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +75,7 @@ class LogIn extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          if (fromSignUp) {
+                          if (widget.fromSignUp) {
                             Navigator.pop(context);
                             return;
                           }
@@ -84,34 +132,46 @@ class LogIn extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: Utils.blockHeight * 3),
                   child: Column(
-                    children: const [
+                    children: [
                       TextFieldGradient(
                         hint: "johndoe@email.com",
                         label: "Email",
+                        controller: _emailController,
                       ),
                       TextFieldGradient(
                         hint: "Pick a strong password",
                         label: "Password",
                         isPassword: true,
+                        controller: _passwordController,
                       ),
                     ],
                   ),
                 ),
                 SizedBox(height: Utils.blockHeight * 2.5),
-                Container(
-                  width: double.infinity,
-                  height: Utils.blockHeight * 5.5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Utils.borderRadius),
-                    gradient: Utils.gradient,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Log in",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: Utils.blockWidht * 3.3,
-                      ),
+                GestureDetector(
+                  onTap: logIn,
+                  child: Container(
+                    width: double.infinity,
+                    height: Utils.blockHeight * 5.5,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Utils.borderRadius),
+                      gradient: Utils.gradient,
+                    ),
+                    child: Center(
+                      child: _loading
+                          ? const CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Log in",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: Utils.blockWidht * 3.3,
+                              ),
+                            ),
                     ),
                   ),
                 ),
@@ -132,7 +192,7 @@ class LogIn extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if (fromSignUp) {
+                        if (widget.fromSignUp) {
                           Navigator.pop(context);
                           return;
                         }

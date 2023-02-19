@@ -1,13 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gradient_borders/gradient_borders.dart';
+import 'package:i_project/abuse/report_abuse.dart';
+import 'package:i_project/auth/log_in.dart';
 import 'package:i_project/home/gradient_mask.dart';
+import 'package:i_project/sub/do_you_know.dart';
 import 'package:i_project/utils.dart';
 
 import 'contact_tile.dart';
 import 'home_tile.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String? username;
+  const HomePage({super.key, this.username});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -19,7 +23,24 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {});
+    });
     _pageController = PageController();
+  }
+
+  Future<void> logOut() async {
+    await FirebaseAuth.instance.signOut();
+    // ignore_for_file: use_build_context_synchronously
+    if (Navigator.of(context).canPop()) {
+      Navigator.pop(context);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const LogIn(),
+        ),
+      );
+    }
   }
 
   @override
@@ -40,25 +61,42 @@ class _HomePageState extends State<HomePage> {
                     height: Utils.blockHeight * 2.5,
                   ),
                   Text(
-                    "Welcome, Isaac",
+                    "Welcome, ${widget.username ?? FirebaseAuth.instance.currentUser!.displayName}",
                     style: TextStyle(
                       fontSize: Utils.blockWidht * 7,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: Utils.blockHeight * 5),
-                  const HomeTile(
-                    title: "Do you know ?",
-                    note:
-                        "A number of promising approaches to reduce sexual violence against children are being tested, but many more are needed",
-                    buttonText: "Learn More",
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const DoYouKnowPage()),
+                      );
+                    },
+                    child: const HomeTile(
+                      title: "Do you know ?",
+                      note:
+                          "A number of promising approaches to reduce sexual violence against children are being tested, but many more are needed",
+                      buttonText: "Learn More",
+                    ),
                   ),
-                  const HomeTile(
-                    title: "Report Abuse",
-                    note:
-                        "Maybe you have a suspicion that a child is being abused with evidence. or confirmation with the said child.",
-                    buttonText: "Report Abuse",
-                    icon: Icons.report_outlined,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: ((context) => const ReportAbuse()),
+                        ),
+                      );
+                    },
+                    child: const HomeTile(
+                      title: "Report Abuse",
+                      note:
+                          "Maybe you have a suspicion that a child is being abused with evidence. or confirmation with the said child.",
+                      buttonText: "Report Abuse",
+                      icon: Icons.report_outlined,
+                    ),
                   ),
                 ],
               ),
