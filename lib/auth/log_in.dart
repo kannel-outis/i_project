@@ -30,7 +30,10 @@ class _LogInState extends State<LogIn> {
   }
 
   Future logIn() async {
-    if (_emailController.text == "" || _passwordController.text == "") return;
+    if (_emailController.text == "" || _passwordController.text == "") {
+      Toast.show("Fields cannot be empty");
+      return;
+    }
     try {
       setState(() {
         _loading = true;

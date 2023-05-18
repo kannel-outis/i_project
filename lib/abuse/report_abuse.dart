@@ -126,7 +126,7 @@ class _ReportAbuseState extends State<ReportAbuse> {
                         ),
                         IconButton(
                           onPressed: () async {
-                            await launchUrl(Uri.parse("sms: +2347066566595"));
+                            await launchUrl(Uri.parse("tel: +2347066566595"));
                           },
                           icon: Icon(
                             Icons.phone,

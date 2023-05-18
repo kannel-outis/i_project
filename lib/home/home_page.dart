@@ -60,16 +60,104 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: Utils.blockHeight * 2.5,
                   ),
-                  Text(
-                    "Welcome, ${widget.username ?? FirebaseAuth.instance.currentUser!.displayName}",
-                    style: TextStyle(
-                      fontSize: Utils.blockWidht * 7,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          // "Welcome, ${widget.username ?? FirebaseAuth.instance.currentUser!.displayName}",
+                          "Welcome, Ifedapo kemi",
+                          style: TextStyle(
+                            fontSize: Utils.blockWidht * 7,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                backgroundColor: Colors.black,
+                                child: Container(
+                                  height: 200,
+                                  width: Utils.blockWidht * 80,
+                                  color: Colors.grey.withOpacity(.15),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Are you sure you wan to log out?",
+                                        style: TextStyle(
+                                          fontSize: Utils.blockWidht * 3,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(20),
+                                              color:
+                                                  Colors.grey.withOpacity(.15),
+                                              child: Text(
+                                                "No",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      Utils.blockWidht * 3,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          // const SizedBox(width: 10),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              logOut();
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(20),
+                                              color:
+                                                  Colors.grey.withOpacity(.15),
+                                              child: Text(
+                                                "Yes",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      Utils.blockWidht * 3,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        icon: const Icon(Icons.exit_to_app_rounded),
+                        color: Colors.grey,
+                      ),
+                    ],
                   ),
                   SizedBox(height: Utils.blockHeight * 5),
                   GestureDetector(
                     onTap: () {
+                      // logOut();
+                      // return;
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => const DoYouKnowPage()),
@@ -135,34 +223,34 @@ class SecondPage extends StatelessWidget {
       child: ListView(
         children: const [
           ContactTile(
-            name: "Adetunmbi juwon",
-            position: "Therapist",
-            imageLink:
-                "https://minimaltoolkit.com/images/randomdata/male/21.jpg",
+            name: "Dr. Aladesewa",
+            position: "Medical Doctor",
+            phoneNumber: "09038896302",
           ),
           ContactTile(
-            name: "Salami olamide",
-            position: "Medical doctor",
+            name: "Adeleke David",
+            position: "W.H.O",
+            phoneNumber: "07032420222",
             imageLink:
-                "https://minimaltoolkit.com/images/randomdata/male/98.jpg",
+                "https://firebasestorage.googleapis.com/v0/b/isaac-a1baa.appspot.com/o/image_!.jpeg?alt=media&token=b6567de6-b1f8-46bb-bec2-dab0000fdcc8",
           ),
           ContactTile(
-            name: "Azeez taiwo",
-            position: "Medical doctor",
+            name: "Prof. (Mrs) Boyinbode",
+            position: "Gender Equality Coach",
+            phoneNumber: "08036279195",
             imageLink:
-                "https://minimaltoolkit.com/images/randomdata/male/41.jpg",
+                "https://futa.edu.ng/futacms/media/staff_images/2055.jpg",
           ),
           ContactTile(
-            name: "Aderinola samsom",
-            position: "Social counsellor",
-            imageLink:
-                "https://minimaltoolkit.com/images/randomdata/male/30.jpg",
+            name: "Olatunde Ifedapo",
+            position: "Legal practitional",
+            phoneNumber: "08139108571",
           ),
           ContactTile(
-            name: "Olumuyiwa damilare",
-            position: "physician",
-            imageLink:
-                "https://minimaltoolkit.com/images/randomdata/male/11.jpg",
+            name: "Dr Mrs Daramola",
+            position: "Gender Equality Coach",
+            phoneNumber: "08037623334",
+            imageLink: "https://futa.edu.ng/futacms/media/staff_images/356.jpg",
           ),
         ],
       ),

@@ -80,6 +80,7 @@ class _SignUpNewState extends State<SignUpNew> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: Utils.blockHeight * 3),
                 SizedBox(
                   child: Row(
                     children: [

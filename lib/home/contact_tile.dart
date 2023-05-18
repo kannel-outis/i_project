@@ -6,16 +6,21 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactTile extends StatelessWidget {
   final String name;
   final String position;
-  final String imageLink;
+  final String? imageLink;
+  final String phoneNumber;
   const ContactTile({
     Key? key,
     required this.name,
     required this.position,
-    required this.imageLink,
+    this.imageLink,
+    required this.phoneNumber,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final number = phoneNumber.split("");
+    number.removeAt(0);
+    final numberUpdated = number.join();
     return Container(
       height: Utils.blockHeight * 17,
       width: double.infinity,
@@ -33,15 +38,24 @@ class ContactTile extends StatelessWidget {
                 height: Utils.blockWidht * 15,
                 width: Utils.blockWidht * 15,
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(Utils.blockWidht * 50),
-                  image: DecorationImage(
-                    image: NetworkImage(imageLink),
-                    fit: BoxFit.cover,
-                  ),
+                  image: imageLink == null
+                      ? null
+                      : DecorationImage(
+                          image: NetworkImage(imageLink!),
+                          fit: BoxFit.cover,
+                        ),
                 ),
+                child: imageLink == null
+                    ? Icon(
+                        Icons.person,
+                        size: Utils.blockWidht * 7,
+                        color: Colors.black,
+                      )
+                    : null,
               ),
-              SizedBox(width: Utils.blockWidht * 2),
+              SizedBox(width: Utils.blockWidht * 4),
               SizedBox(
                 height: Utils.blockWidht * 15,
                 child: Column(
@@ -71,7 +85,7 @@ class ContactTile extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () async {
-                  await launchUrl(Uri.parse("sms: +2347066566595"));
+                  await launchUrl(Uri.parse("sms: +234$numberUpdated"));
                 },
                 child: Container(
                   height: Utils.blockWidht * 10,
@@ -93,7 +107,7 @@ class ContactTile extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    await launchUrl(Uri.parse("tel: +2347066566595"));
+                    await launchUrl(Uri.parse("tel: +234$numberUpdated"));
                   },
                   child: Container(
                     height: Utils.blockWidht * 10,
